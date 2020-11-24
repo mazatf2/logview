@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import SteamID from 'steamid'
 import {fetchLogList} from './fetch'
-import {logListJson, searchLogListApi} from './logstf_api'
+import {logListJson, searchLogListApi, searchLogListOpts} from './logstf_api'
 import Fuzzysort from 'fuzzysort'
 import {searchObj} from './components/searchforms/SearchLogListApiFormAdvanced'
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
@@ -62,8 +62,44 @@ const App = () => {
 	
 	const handleExtendTable = (ev: React.ChangeEvent<HTMLSelectElement>) => {}
 	
+	const searchTeamp = async (obj: Partial<searchLogListOpts>) => {
+		const t = await fetchLogList(obj)
+		const data: searchLogListApi = await t.json()
+		
+		mainData = data.logs.map(i => newLogListTableDataEntry(i, steam64))
+		setLogListTableData(mainData)
+		console.log(data)
+	}
+	
 	const handleSubmit = (i: searchObj) => {
-		console.log(i)
+		
+		const noDuplicates = (i) => Array.from(new Set([...i])).join(',')
+		
+		if (i.formType === 'simple' && i.player) {
+			const isIdList = isValidSteamIdList(i.player)
+			if (isIdList) {
+				const ids = parseSteamIdList(i.player)
+					.filter(i => i)
+					.map(i => i.getSteamID64())
+				
+				const temp = noDuplicates(ids)
+				searchTeamp({player: temp})
+				
+			}
+		}
+		
+		if (i.formType === 'advanced') {
+			const query: searchObj = {
+				formType: 'advanced',
+				map: (i.map.length < 64 && i.map) || '',
+				title: (i.title.length < 64 && i.map) || '',
+				player: (i.player && isValidSteamIdList(i.uploader) && noDuplicates(parseSteamIdList(i.player))) || '',
+				uploader: (i.uploader && isValidSteamId(i.uploader) && parseSteamId(i.uploader)) || '',
+				
+			}
+			searchTeamp(query)
+			
+		}
 	}
 	
 	const getSelected = () => {

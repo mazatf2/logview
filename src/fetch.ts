@@ -43,17 +43,30 @@ export const CacheableFetch = async (request: Request) => {
 	return result
 }
 
-export const fetchLogList = async ({
-									title = '',
-									map = '',
-									uploader = '',
-									player = [],
-									limit = 1000,
-									offset = 0,
-								}: Partial<searchLogListOpts>) => {
+export const fetchLogList = async (query: Partial<searchLogListOpts>) => {
+	
+	function validateKeys(q: Partial<searchLogListOpts>): searchLogListOpts {
+		return {
+			title: q.title || '',
+			map: q.map || '',
+			uploader: q.uploader || '',
+			player: q.player || [],
+			limit: q.limit || 1000,
+			offset: q.offset || 0,
+		}
+	}
+	
+	query = validateKeys(query)
+	const params = new URLSearchParams()
+	
+	for (const [key, value] of Object.entries(query)) {
+		if (value)
+			params.set(key, value.toString())
+	}
+	
 	
 	// http://logs.tf/api/v1/log?title=X&uploader=Y&player=Z&limit=N&offset=N
-	const url = `https://logs.tf/api/v1/log?player=${player.join(',')}`
+	const url = `https://logs.tf/api/v1/log?${params.toString()}`
 	const req = new Request(url)
 	
 	return await CacheableFetch(req)

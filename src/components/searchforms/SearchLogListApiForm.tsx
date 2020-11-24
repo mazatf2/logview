@@ -4,9 +4,10 @@ import {FieldHorizontal} from './components/FieldHorizontal'
 import {Label} from './components/Label'
 import {FieldBody} from './components/FieldBody'
 import {Button} from './components/Button'
-import {isMaybeValidSteamIdList, searchObj} from './SearchLogListApiFormAdvanced'
+import {isValidSteamIdList, searchObj} from './SearchLogListApiFormAdvanced'
 import {PlayerSelect} from './rows/PlayerSelect'
 import {Form} from './components/Form'
+import {FormType} from './components/FormType'
 
 export const SearchLogListApiForm = ({onSubmit, ...props}: { onSubmit: searchObj }) => {
 	const {handleSubmit, register, errors} = useForm()
@@ -16,7 +17,7 @@ export const SearchLogListApiForm = ({onSubmit, ...props}: { onSubmit: searchObj
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<PlayerSelect register={register({
-				validate: val => isMaybeValidSteamIdList(val),
+				validate: val => isValidSteamIdList(val),
 			})}/>
 			
 			<FieldHorizontal>
@@ -35,6 +36,8 @@ export const SearchLogListApiForm = ({onSubmit, ...props}: { onSubmit: searchObj
 					</div>
 				</FieldBody>
 			</FieldHorizontal>
+			
+			<FormType type={'simple'} register={register({})}/>
 		</Form>
 	)
 }
