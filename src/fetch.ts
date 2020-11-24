@@ -1,5 +1,6 @@
 import Queue from 'smart-request-balancer'
 import {logstfJson, searchLogListOpts} from './logstf_api'
+import JSZip from 'jszip'
 
 const queue = new Queue({
 	rules: {
@@ -77,4 +78,17 @@ export const fetchLogData = async (id: number) => {
 	const req = new Request(url)
 	const data = await CacheableFetch(req)
 	return data.json() as logstfJson
+}
+
+export const fetchLogZip = async (id: string) => {
+	const url = `http://logs.tf/logs/log_${id}.log.zip`
+	const req = new Request(url)
+	const response = await CacheableFetch(req)
+	const jsZip = new JSZip()
+	const buffer = response.arrayBuffer()
+	
+	const zip = await JSZip.loadAsync(buffer)
+	const file = await zip.file(`log_${id}.log`).async('string')
+	
+	return file
 }
