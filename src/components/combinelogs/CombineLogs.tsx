@@ -8,7 +8,6 @@ import {CombineLogsPlayersTable} from './CombineLogsPlayersTable'
 
 type props = {
 	ids: number[]
-	steam32: string
 }
 
 export const sumNoDecimals = (arr: number[]) => {
@@ -21,9 +20,9 @@ export const medianDecimals = (arr: number[], decimals: number) => {
 	return Number(average(arr).toFixed(decimals))
 }
 
-export const CombineLogs = ({ids, steam32}: props) => {
+export const CombineLogs = ({ids}: props) => {
 	const [logsArr, setLogsArr] = useState<logstfJson[]>([])
-	console.log('CombineLogs', ids, steam32)
+	console.log('CombineLogs', ids)
 	
 	useEffect(() => {
 		const data = ids
@@ -38,7 +37,7 @@ export const CombineLogs = ({ids, steam32}: props) => {
 	}, [ids])
 	
 	return <>
-		<CombineLogsPlayersTable logsArr={logsArr} steam32={steam32}/>
+		<CombineLogsPlayersTable logsArr={logsArr}/>
 		<RoundInfo logsArr={logsArr} ids={ids}/>
 	</>
 }

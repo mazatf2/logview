@@ -7,13 +7,13 @@ import {medianDecimals, sumNoDecimals} from './CombineLogs'
 import './CombineLogs.css'
 
 
-export const CombineLogsPlayersTable = ({logsArr, steam32}) => {
+export const CombineLogsPlayersTable = ({logsArr}) => {
 	const [players, setPlayers] = useState([])
 	
 	useEffect(()=>{
 		const temp = async () => {
 			const handle = new ProcessLog()
-			const promises = logsArr.map(async i => await handle.newLog(i, steam32))
+			const promises = logsArr.map(async i => await handle.newLog(i, ''))
 			
 			Promise.all(promises)
 				.then(i => {
@@ -26,7 +26,7 @@ export const CombineLogsPlayersTable = ({logsArr, steam32}) => {
 		}
 		
 		temp()
-	}, [logsArr, steam32])
+	}, [logsArr])
 	
 	const sumColumn = (key: string) => {
 		return {

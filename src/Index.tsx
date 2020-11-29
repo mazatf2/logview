@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom'
 import SteamID from 'steamid'
 import {fetchLogList} from './fetch'
 import {logListJson, searchLogListApi, searchLogListOpts} from './logstf_api'
-import Fuzzysort from 'fuzzysort'
-import {searchObj} from './components/searchforms/SearchLogListApiFormAdvanced'
+import {isValidSteamId, isValidSteamIdList, parseSteamId, parseSteamIdList, searchObj} from './components/searchforms/SearchLogListApiFormAdvanced'
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import {LandingPage} from './components/pages/LandingPage'
 import {SelectLogsPage} from './components/pages/SelectLogsPage'
@@ -13,23 +12,12 @@ import {LogCombinerPage} from './components/pages/LogCombinerPage'
 import {SelectLogsPageNavigation} from './components/pages/SelectLogsPageNavigation'
 
 export interface logListTableData {
-	steam64: string
-	log: logListJson
-	fuzzyResult: Fuzzysort.Result
-	highlight: {
-		key: keyof logListJson | null,
-		value: string
-	}
-	selected: boolean
+	log: logListJson,
 }
 
-const newLogListTableDataEntry = (i: logListJson, steam64: string): logListTableData => {
+const newLogListTableDataEntry = (i: logListJson): logListTableData => {
 	return {
-		steam64: steam64,
 		log: i,
-		fuzzyResult: {indexes: [], target: '', score: Infinity},
-		highlight: {key: null, value: ''},
-		selected: false,
 	}
 }
 
@@ -48,7 +36,7 @@ const App = () => {
 			const t = await fetchLogList({player: [steam64]})
 			const data: searchLogListApi = await t.json()
 			
-			mainData = data.logs.map(i => newLogListTableDataEntry(i, steam64))
+			mainData = data.logs.map(i => newLogListTableDataEntry(i))
 			setLogListTableData(mainData)
 			
 			console.log(data)
@@ -66,7 +54,7 @@ const App = () => {
 		const t = await fetchLogList(obj)
 		const data: searchLogListApi = await t.json()
 		
-		mainData = data.logs.map(i => newLogListTableDataEntry(i, steam64))
+		mainData = data.logs.map(i => newLogListTableDataEntry(i))
 		setLogListTableData(mainData)
 		console.log(data)
 	}
