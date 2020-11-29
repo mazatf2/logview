@@ -1,6 +1,8 @@
 import React, {useMemo} from 'react'
 import {logListTableData} from '../../Index'
 import {IndeterminateCheckbox, MainTable} from './MainTable'
+import {Date} from './cells/Date'
+import {Id} from './cells/Id'
 
 export type LogListTableProps = {
 	tableData: logListTableData[]
@@ -29,6 +31,7 @@ export const LogListTable = ({tableData, steam64}: LogListTableProps) => {
 			Header: 'id',
 			accessor: 'log.id',
 			className: 'has-text-right',
+			Cell: ({value}) => <Id id={value}/>,
 		},
 		{
 			Header: 'title',
@@ -49,6 +52,7 @@ export const LogListTable = ({tableData, steam64}: LogListTableProps) => {
 			Header: 'date',
 			accessor: 'log.date',
 			className: 'has-text-left',
+			Cell: ({value}) => <Date date={value}/>,
 		},
 		{
 			Header: 'views',
