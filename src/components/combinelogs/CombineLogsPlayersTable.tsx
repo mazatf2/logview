@@ -3,7 +3,7 @@ import {Abbr} from './Abbr'
 import ProcessLog from '@bit/mazatf.components.process-log'
 import {ClassList} from './cells/ClassList'
 import {useSortBy, useTable} from 'react-table'
-import {sumNoDecimals} from './CombineLogs'
+import {medianDecimals, sumNoDecimals} from './CombineLogs'
 import './CombineLogs.css'
 
 
@@ -37,6 +37,15 @@ export const CombineLogsPlayersTable = ({logsArr, steam32}) => {
 		}
 	}
 	
+	const medianColumn = (key: string, decimals: number) => {
+		return {
+			Header: Abbr(key),
+			id: key,
+			accessor: player => medianDecimals(player[key], decimals),
+			className: 'has-text-right',
+		}
+	}
+	
 	const columns = React.useMemo(
 		() => [
 			{
@@ -57,9 +66,9 @@ export const CombineLogsPlayersTable = ({logsArr, steam32}) => {
 			sumColumn('assists'),
 			sumColumn('deaths'),
 			sumColumn('dmg'),
-			sumColumn('dapm'), // dps
+			medianColumn('dapm', 0), // dps
 			// sumColumn('dapd'), // dmg per death
-			sumColumn('kpd'), // kd
+			medianColumn('kpd', 1), // kd
 			sumColumn('as'),
 			sumColumn('backstabs'),
 			sumColumn('headshots'), // vs headshots_hit
