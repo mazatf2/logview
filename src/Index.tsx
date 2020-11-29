@@ -134,8 +134,8 @@ const App = () => {
 				test
 				<SelectLogsPageNavigation onLocationPage={togglePages}/>
 			</Route>
-			<Route path="/log-combiner">
-				<LogCombinerPage steam32={steam32} ids={[]}/>
+			<Route path="/log-combiner/:idList">
+				<LogCombinerPage/>
 			</Route>
 			<Route path="/dev">
 				<DevPage/>
