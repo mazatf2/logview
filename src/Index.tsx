@@ -129,7 +129,11 @@ const App = () => {
 		<Link to="/select" onClick={() => togglePages('select')}>Select logs</Link>
 		<Link to="/dev" onClick={() => togglePages('')}>Debug</Link>
 		<Link to="/log-combiner" onClick={() => togglePages('')}>Combine logs</Link>
+		<Link to="/log-stats" onClick={() => togglePages('')}>Log stats</Link>
 		<Switch>
+			<Route path="/log-stats/:steam64/:ids">
+				<LogStats/>
+			</Route>
 			<Route path="/select">
 				test
 				<SelectLogsPageNavigation onLocationPage={togglePages}/>
