@@ -12,12 +12,12 @@ type props = {
 
 export const sumNoDecimals = (arr: number[]) => {
 	if(!arr) return 0
-	return Number(sum(arr).toFixed(0))
+	return Number(sum(arr)).toFixed(0)
 }
 
 export const medianDecimals = (arr: number[], decimals: number) => {
 	if (!arr) return 0
-	return Number(average(arr).toFixed(decimals))
+	return Number(average(arr)).toFixed(decimals)
 }
 
 export const CombineLogs = ({ids}: props) => {
