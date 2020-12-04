@@ -8,6 +8,7 @@
   "build": "parcel build public/index.html"
  },
  "dependencies": {
+  "@bit/mazatf.components.log-api": "^0.0.1",
   "@bit/mazatf.components.process-log": "^1.0.6",
   "dayjs": "^1.9.6",
   "fuzzysort": "^1.1.4",
