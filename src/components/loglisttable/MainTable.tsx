@@ -5,6 +5,7 @@ import {Label} from '../searchforms/components/Label'
 import {FieldBody} from '../searchforms/components/FieldBody'
 import {logListTableData} from '../../Index'
 import './MainTable.css'
+import { Link } from 'react-router-dom'
 
 export const IndeterminateCheckbox = forwardRef(({indeterminate, ...rest}, ref) => {
 		// https://github.com/tannerlinsley/react-table/blob/v7.6.1/examples/row-selection/src/App.js#L36
@@ -98,6 +99,8 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 			className="is-fullwidth is-fullheight"
 			style={{overflow: 'auto'}}
 		>
+			<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}>Log Combiner</Link>
+			<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id) }>Log Stats</Link>
 			<div className="container">
 				{console.log(state, selectedFlatRows)}
 				<GlobalFilter
