@@ -103,8 +103,6 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 			className="is-fullwidth is-fullheight"
 			style={{overflow: 'auto'}}
 		>
-			<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}>Log Combiner</Link>
-			<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id) }>Log Stats</Link>
 			<div className="container">
 				{console.log(selectedFlatRows)}
 				<GlobalFilter
@@ -112,6 +110,24 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 					globalFilter={globalFilter}
 					setGlobalFilter={setGlobalFilter}
 				/>
+				
+				<FieldHorizontal>
+					<Label></Label>
+					<FieldBody>
+						<div className="field is-grouped">
+							<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}
+								className="button control"
+							>
+								Log Combiner
+							</Link>
+							<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id)}
+								className="button control"
+							>
+								Log Stats
+							</Link>
+						</div>
+					</FieldBody>
+				</FieldHorizontal>
 				
 				<table className="table is narrow is-hoverable" {...getTableProps()}>
 					<thead className="thead">
