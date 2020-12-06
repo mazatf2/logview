@@ -1,11 +1,12 @@
 import React, {forwardRef, useEffect, useMemo, useRef, useState} from 'react'
-import {useAsyncDebounce, useGlobalFilter, useRowSelect, useSortBy, useTable} from 'react-table'
+import {useAsyncDebounce, useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable} from 'react-table'
 import {FieldHorizontal} from '../searchforms/components/FieldHorizontal'
 import {Label} from '../searchforms/components/Label'
 import {FieldBody} from '../searchforms/components/FieldBody'
 import {logListTableData} from '../../Index'
 import './MainTable.css'
 import { Link } from 'react-router-dom'
+import {Button} from '../searchforms/components/Button'
 
 export const IndeterminateCheckbox = forwardRef(({indeterminate, ...rest}, ref) => {
 		// https://github.com/tannerlinsley/react-table/blob/v7.6.1/examples/row-selection/src/App.js#L36
@@ -73,19 +74,22 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
-		rows,
+		page,
+		setPageSize,
 		prepareRow,
 		selectedFlatRows,
 		preGlobalFilteredRows,
 		setGlobalFilter,
-		state,
+		state: {pageIndex, pageSize, globalFilter},
 	} = useTable({
 			columns: columnsMemo,
 			data: dataMemo,
 			disableSortRemove: true,
+			initialState: {pageSize: 80},
 		},
 		useGlobalFilter,
 		useSortBy,
+		usePagination,
 		useRowSelect,
 	)
 	
@@ -102,10 +106,10 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 			<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}>Log Combiner</Link>
 			<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id) }>Log Stats</Link>
 			<div className="container">
-				{console.log(state, selectedFlatRows)}
+				{console.log(selectedFlatRows)}
 				<GlobalFilter
 					preGlobalFilteredRows={preGlobalFilteredRows}
-					globalFilter={state.globalFilter}
+					globalFilter={globalFilter}
 					setGlobalFilter={setGlobalFilter}
 				/>
 				
@@ -129,7 +133,7 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 					))}
 					</thead>
 					<tbody className="tbody" {...getTableBodyProps()}>
-					{rows.map(row => {
+					{page.map(row => {
 						prepareRow(row)
 						
 						return (
@@ -153,6 +157,27 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 					})}
 					</tbody>
 				</table>
+				
+				{data.length > 80 &&
+				<FieldHorizontal>
+					<Label>Showing {pageSize} logs</Label>
+					<FieldBody>
+						<div className="field is-grouped">
+							<Button
+								onClick={() => setPageSize(80)}
+							>
+								Show 80
+							</Button>
+							<Button
+								onClick={() => setPageSize(data.length)}
+							>
+								Show all
+							</Button>
+						</div>
+					</FieldBody>
+				</FieldHorizontal>
+				}
+				
 			</div>
 		</div>
 	)
