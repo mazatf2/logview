@@ -1,11 +1,11 @@
-import React, {forwardRef, useEffect, useMemo, useRef, useState} from 'react'
+import React, {forwardRef, useMemo} from 'react'
 import {useAsyncDebounce, useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable} from 'react-table'
 import {FieldHorizontal} from '../searchforms/components/FieldHorizontal'
 import {Label} from '../searchforms/components/Label'
 import {FieldBody} from '../searchforms/components/FieldBody'
 import {logListTableData} from '../../Index'
 import './MainTable.css'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {Button} from '../searchforms/components/Button'
 
 export const IndeterminateCheckbox = forwardRef(({indeterminate, ...rest}, ref) => {
@@ -193,7 +193,7 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 					</FieldBody>
 				</FieldHorizontal>
 				}
-				
+			
 			</div>
 		</div>
 	)
