@@ -1,9 +1,10 @@
-import React, {useEffect, useMemo, useState} from 'react'
-import {sum, average} from '@bit/mazatf.components.utils'
+import React, {useEffect, useState} from 'react'
+import {average, sum} from '@bit/mazatf.components.utils'
 import {fetchLogData} from '../../fetch'
 import {logstfJson} from '../../logstf_api'
 import {RoundInfo} from './RoundInfo'
 import {CombineLogsPlayersTable} from './CombineLogsPlayersTable'
+import {MedicStats} from './MedicStats'
 
 
 type props = {
@@ -11,7 +12,7 @@ type props = {
 }
 
 export const sumNoDecimals = (arr: number[]) => {
-	if(!arr) return 0
+	if (!arr) return 0
 	return Number(sum(arr)).toFixed(0)
 }
 
@@ -36,8 +37,11 @@ export const CombineLogs = ({ids}: props) => {
 			})
 	}, [ids])
 	
-	return <>
-		<CombineLogsPlayersTable logsArr={logsArr}/>
-		<RoundInfo logsArr={logsArr} ids={ids}/>
-	</>
+	return <div className="section">
+		<div className="container">
+			<CombineLogsPlayersTable logsArr={logsArr}/>
+			<RoundInfo logsArr={logsArr} ids={ids}/>
+			<MedicStats logsArr={logsArr} ids={ids}/>
+		</div>
+	</div>
 }
