@@ -29,6 +29,9 @@ export const LogCombinerPage = () => {
 		return Redirect(['LogCombinerPage idList', idList])
 	}
 	
-	return <CombineLogs
-		ids={list}/>
+	return <div className="section">
+		<div className="container">
+			<CombineLogs ids={list}/>
+		</div>
+	</div>
 }

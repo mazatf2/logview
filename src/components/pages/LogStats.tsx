@@ -36,5 +36,9 @@ export const LogStats = () => {
 		return Redirect(['LogStats ids, steamId', ids, steam64])
 	}
 	
-	return <PlayerStatsAll ids={list} steam64={steamId}/>
+	return <div className="section">
+		<div className="container" >
+			<PlayerStatsAll ids={list} steam64={steamId}/>
+		</div>
+	</div>
 }

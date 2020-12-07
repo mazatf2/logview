@@ -137,7 +137,7 @@ const App = () => {
 			<Route path="/dev">
 				<DevPage/>
 			</Route>
-			<Route path="/">
+			<Route exact path="/">
 				<LandingPage/>
 			</Route>
 		</Switch>

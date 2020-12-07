@@ -148,13 +148,23 @@ export const SearchLogListApiFormAdvanced = ({onSubmit, ...props}: { onSubmit: s
 				validate: val => isEmptyOrValidSteamIdListField(val),
 			})}/>
 			
+			{errors.uploader &&
 			<FieldHorizontal>
 				<Label></Label>
 				<FieldBody>
 					{errors.uploader && <p>invalid uploader</p>}
+				</FieldBody>
+			</FieldHorizontal>
+			}
+			
+			{errors.player &&
+			<FieldHorizontal>
+				<Label></Label>
+				<FieldBody>
 					{errors.player && <p>invalid players</p>}
 				</FieldBody>
 			</FieldHorizontal>
+			}
 			
 			<FieldHorizontal>
 				<Label></Label>

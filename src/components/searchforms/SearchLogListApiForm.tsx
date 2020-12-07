@@ -20,12 +20,14 @@ export const SearchLogListApiForm = ({onSubmit, ...props}: { onSubmit: searchObj
 				validate: val => isValidSteamIdList(val),
 			})}/>
 			
+			{errors.player &&
 			<FieldHorizontal>
 				<Label></Label>
 				<FieldBody>
 					{errors.player && <p>invalid players</p>}
 				</FieldBody>
 			</FieldHorizontal>
+			}
 			
 			<FieldHorizontal>
 				<Label></Label>

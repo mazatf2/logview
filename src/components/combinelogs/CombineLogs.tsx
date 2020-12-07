@@ -4,8 +4,6 @@ import {fetchLogData} from '../../fetch'
 import {logstfJson} from '../../logstf_api'
 import {RoundInfo} from './RoundInfo'
 import {CombineLogsPlayersTable} from './CombineLogsPlayersTable'
-import {MedicStats} from './MedicStats'
-
 
 type props = {
 	ids: number[]
@@ -37,11 +35,8 @@ export const CombineLogs = ({ids}: props) => {
 			})
 	}, [ids])
 	
-	return <div className="section">
-		<div className="container">
+	return <>
 			<CombineLogsPlayersTable logsArr={logsArr}/>
 			<RoundInfo logsArr={logsArr} ids={ids}/>
-			<MedicStats logsArr={logsArr} ids={ids}/>
-		</div>
-	</div>
+	</>
 }

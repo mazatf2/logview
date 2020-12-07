@@ -106,32 +106,33 @@ export const MainTable = ({data, columns, steam64, togglePages}: MainTableProps)
 		>
 			<div className="container">
 				{console.log(selectedFlatRows)}
-				<GlobalFilter
-					preGlobalFilteredRows={preGlobalFilteredRows}
-					globalFilter={globalFilter}
-					setGlobalFilter={setGlobalFilter}
-				/>
-				
-				{togglePages &&
-				<FieldHorizontal>
-					<Label></Label>
-					<FieldBody>
-						<div className="field is-grouped">
-							<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}
-								onClick={() => togglePages('')}
-								className="button control"
-							>
-								Log Combiner
-							</Link>
-							<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id)}
-								onClick={() => togglePages('')}
-								className="button control"
-							>
-								Log Stats
-							</Link>
-						</div>
-					</FieldBody>
-				</FieldHorizontal>
+				{togglePages && <>
+					<GlobalFilter
+						preGlobalFilteredRows={preGlobalFilteredRows}
+						globalFilter={globalFilter}
+						setGlobalFilter={setGlobalFilter}
+					/>
+					
+					<FieldHorizontal>
+						<Label></Label>
+						<FieldBody>
+							<div className="field is-grouped">
+								<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}
+									onClick={() => togglePages('')}
+									className="button control"
+								>
+									Log Combiner
+								</Link>
+								<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id)}
+									onClick={() => togglePages('')}
+									className="button control"
+								>
+									Log Stats
+								</Link>
+							</div>
+						</FieldBody>
+					</FieldHorizontal>
+				</>
 				}
 				
 				<table className="table is narrow is-hoverable" {...getTableProps()}>
