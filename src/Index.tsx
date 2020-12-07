@@ -3,13 +3,20 @@ import ReactDOM from 'react-dom'
 import SteamID from 'steamid'
 import {fetchLogList} from './fetch'
 import {logListJson, searchLogListApi, searchLogListOpts} from './logstf_api'
-import {isValidSteamId, isValidSteamIdList, parseSteamId, parseSteamIdList, searchObj} from './components/searchforms/SearchLogListApiFormAdvanced'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {
+	isValidSteamId,
+	isValidSteamIdList,
+	parseSteamId,
+	parseSteamIdList,
+	searchObj,
+} from './components/searchforms/SearchLogListApiFormAdvanced'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {LandingPage} from './components/pages/LandingPage'
 import {SelectLogsPage} from './components/pages/SelectLogsPage'
 import {DevPage} from './components/pages/DevPage'
 import {LogCombinerPage} from './components/pages/LogCombinerPage'
 import {SelectLogsPageNavigation} from './components/pages/SelectLogsPageNavigation'
+import {LogStats} from './components/pages/LogStats'
 
 export interface logListTableData {
 	log: logListJson,
@@ -47,8 +54,6 @@ const App = () => {
 		testData()
 		
 	}, [steam64])
-	
-	const handleExtendTable = (ev: React.ChangeEvent<HTMLSelectElement>) => {}
 	
 	const searchTeamp = async (obj: Partial<searchLogListOpts>) => {
 		const t = await fetchLogList(obj)
@@ -90,23 +95,17 @@ const App = () => {
 		}
 	}
 	
-	const getSelected = () => {
-		return logListTableData.filter(i => i.selected)
-			.map(i => i.log.id)
-	}
-	
 	const togglePages = (page?: string) => {
 		console.log('togglePages')
 		
-		if (page.includes('select')){
-			if(!showSelectPage){
+		if (page && page.includes('select')) {
+			if (!showSelectPage) {
 				setShowSelect(true)
 				console.log('show select')
 			}
 			
-		}
-		else {
-			if(showSelectPage) {
+		} else {
+			if (showSelectPage) {
 				setShowSelect(false)
 				console.log('hide select')
 			}
@@ -125,17 +124,11 @@ const App = () => {
 	}
 	
 	return <Router>
-		<Link to="/" onClick={() => togglePages('')}>Frontpage</Link>
-		<Link to="/select" onClick={() => togglePages('select')}>Select logs</Link>
-		<Link to="/dev" onClick={() => togglePages('')}>Debug</Link>
-		<Link to="/log-combiner" onClick={() => togglePages('')}>Combine logs</Link>
-		<Link to="/log-stats" onClick={() => togglePages('')}>Log stats</Link>
 		<Switch>
 			<Route path="/log-stats/:steam64/:ids">
 				<LogStats/>
 			</Route>
 			<Route path="/select">
-				test
 				<SelectLogsPageNavigation onLocationPage={togglePages}/>
 			</Route>
 			<Route path="/log-combiner/:idList">
@@ -152,7 +145,6 @@ const App = () => {
 			<SelectLogsPage
 				togglePages={togglePages}
 				handleSubmit={handleSubmit}
-				handleExtendTable={handleExtendTable}
 				tableData={logListTableData}
 				steam64={steam64}
 			/>

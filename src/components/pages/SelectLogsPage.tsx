@@ -1,17 +1,13 @@
 import React from 'react'
 import {SearchLogListApi} from '../SearchLogListApi'
-import {FilterTableSelections} from '../FilterTableSelections'
 import {LogListTable} from '../loglisttable/LoglistTable'
 
-export const SelectLogsPage = ({togglePages, handleSubmit, handleExtendTable, tableData, steam64}) => {
+export const SelectLogsPage = ({togglePages, handleSubmit, tableData, steam64}) => {
 	return <>
 		<SearchLogListApi onSubmit={handleSubmit}/>
 		
 		<div className="section">
 			<div className="container">
-				<FilterTableSelections
-					onExtendTableChange={handleExtendTable}
-				/>
 				<LogListTable
 					togglePages={togglePages}
 					tableData={tableData}
