@@ -3,7 +3,7 @@ import {SearchLogListApi} from '../SearchLogListApi'
 import {FilterTableSelections} from '../FilterTableSelections'
 import {LogListTable} from '../loglisttable/LoglistTable'
 
-export const SelectLogsPage = ({handleSubmit, handleExtendTable, tableData, steam64}) => {
+export const SelectLogsPage = ({togglePages, handleSubmit, handleExtendTable, tableData, steam64}) => {
 	return <>
 		<SearchLogListApi onSubmit={handleSubmit}/>
 		
@@ -13,6 +13,7 @@ export const SelectLogsPage = ({handleSubmit, handleExtendTable, tableData, stea
 					onExtendTableChange={handleExtendTable}
 				/>
 				<LogListTable
+					togglePages={togglePages}
 					tableData={tableData}
 					steam64={steam64}
 				/>

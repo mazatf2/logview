@@ -64,9 +64,10 @@ export type MainTableProps = {
 	data: logListTableData[]
 	columns: []
 	steam64: string
+	togglePages?: (page?: string) => void
 }
 
-export const MainTable = ({data, columns, steam64}: MainTableProps) => {
+export const MainTable = ({data, columns, steam64, togglePages}: MainTableProps) => {
 	const columnsMemo = useMemo(() => columns, [columns])
 	const dataMemo = useMemo(() => data, [data])
 	
@@ -111,16 +112,19 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 					setGlobalFilter={setGlobalFilter}
 				/>
 				
+				{togglePages &&
 				<FieldHorizontal>
 					<Label></Label>
 					<FieldBody>
 						<div className="field is-grouped">
 							<Link to={'/log-combiner/' + selectedFlatRows.map(i => i.original.log.id)}
+								onClick={() => togglePages('')}
 								className="button control"
 							>
 								Log Combiner
 							</Link>
 							<Link to={`/log-stats/${steam64}/` + selectedFlatRows.map(i => i.original.log.id)}
+								onClick={() => togglePages('')}
 								className="button control"
 							>
 								Log Stats
@@ -128,6 +132,7 @@ export const MainTable = ({data, columns, steam64}: MainTableProps) => {
 						</div>
 					</FieldBody>
 				</FieldHorizontal>
+				}
 				
 				<table className="table is narrow is-hoverable" {...getTableProps()}>
 					<thead className="thead">

@@ -7,9 +7,10 @@ import {Id} from './cells/Id'
 export type LogListTableProps = {
 	tableData: logListTableData[]
 	steam64: string
+	togglePages: (page?: string) => void
 }
 
-export const LogListTable = ({tableData, steam64}: LogListTableProps) => {
+export const LogListTable = ({tableData, steam64, togglePages}: LogListTableProps) => {
 	const columns = useMemo(() => [
 		{
 			id: 'selection',
@@ -62,5 +63,5 @@ export const LogListTable = ({tableData, steam64}: LogListTableProps) => {
 	
 	], [tableData])
 	
-	return <MainTable data={tableData} columns={columns} steam64={steam64}/>
+	return <MainTable data={tableData} columns={columns} steam64={steam64} togglePages={togglePages}/>
 }

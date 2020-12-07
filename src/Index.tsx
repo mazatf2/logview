@@ -150,6 +150,7 @@ const App = () => {
 		</Switch>
 		<div style={{display: isSelectPageActive()}}>
 			<SelectLogsPage
+				togglePages={togglePages}
 				handleSubmit={handleSubmit}
 				handleExtendTable={handleExtendTable}
 				tableData={logListTableData}
