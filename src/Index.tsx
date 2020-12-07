@@ -17,6 +17,7 @@ import {DevPage} from './components/pages/DevPage'
 import {LogCombinerPage} from './components/pages/LogCombinerPage'
 import {SelectLogsPageNavigation} from './components/pages/SelectLogsPageNavigation'
 import {LogStats} from './components/pages/LogStats'
+import {NavBar} from './components/NavBar'
 
 export interface logListTableData {
 	log: logListJson,
@@ -124,6 +125,7 @@ const App = () => {
 	}
 	
 	return <Router>
+		<NavBar/>
 		<Switch>
 			<Route path="/log-stats/:steam64/:ids">
 				<LogStats/>
