@@ -1,11 +1,13 @@
 {
  "name": "logs-search",
  "version": "0.0.1",
- "main": "index.js",
+ "homepage": "https://mazatf2.github.io/logview",
  "license": "MIT",
  "scripts": {
   "dev": "parcel serve public/index.html",
-  "build": "parcel build public/index.html"
+  "build": "parcel build public/index.html",
+  "predeploy": "yarn run build",
+  "deploy": "gh-pages -d dist"
  },
  "dependencies": {
   "@bit/mazatf.components.log-api": "^0.0.1",
