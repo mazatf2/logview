@@ -52,7 +52,7 @@ export const fetchLogList = async (query: Partial<searchLogListOpts>) => {
 			map: q.map || '',
 			uploader: q.uploader || '',
 			player: q.player || [],
-			limit: q.limit || 1000,
+			limit: q.limit || 10000,
 			offset: q.offset || 0,
 		}
 	}
