@@ -14,7 +14,11 @@ export const LogStats = () => {
 		try {
 			const str = decodeURI(ids).trim()
 			const temp = str.split(',')
-				.map(i => parseInt(i))
+			
+			const onlyNumbers = temp.every(i => Number(i))
+			if (!onlyNumbers) return Redirect(['LogStats onlyNumbers', temp])
+			
+			temp.map(i => parseInt(i))
 				.filter(i => i && i)
 				.filter(i => i.toString().length < 10)
 			
