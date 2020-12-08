@@ -10,8 +10,7 @@ import {
 	parseSteamIdList,
 	searchObj,
 } from './components/searchforms/SearchLogListApiFormAdvanced'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {LandingPage} from './components/pages/LandingPage'
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import {SelectLogsPage} from './components/pages/SelectLogsPage'
 import {DevPage} from './components/pages/DevPage'
 import {LogCombinerPage} from './components/pages/LogCombinerPage'
@@ -136,11 +135,11 @@ const App = () => {
 			<Route path="/log-combiner/:idList">
 				<LogCombinerPage/>
 			</Route>
-			<Route path="/dev">
-				<DevPage/>
-			</Route>
 			<Route exact path="/">
-				<LandingPage/>
+				<Redirect to="/select"/>
+			</Route>
+			<Route path="*">
+				<Redirect to="/select"/>
 			</Route>
 		</Switch>
 		<div style={{display: isSelectPageActive()}}>
