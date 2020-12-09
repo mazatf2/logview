@@ -82,12 +82,20 @@ const App = () => {
 		}
 		
 		if (i.formType === 'advanced') {
+			
+			const checkPlayer = (list: string) => {
+				if (list && isValidSteamIdList(list)) {
+					return noDuplicates(parseSteamIdList(list).map(id => id.getSteamID64()))
+				}
+				return null
+			}
+			
 			const query: searchObj = {
 				formType: 'advanced',
 				map: (i.map.length < 64 && i.map) || '',
 				title: (i.title.length < 64 && i.map) || '',
-				player: (i.player && isValidSteamIdList(i.uploader) && noDuplicates(parseSteamIdList(i.player))) || '',
-				uploader: (i.uploader && isValidSteamId(i.uploader) && parseSteamId(i.uploader)) || '',
+				player: checkPlayer(i.player) || '',
+				uploader: (i.uploader && isValidSteamId(i.uploader) && parseSteamId(i.uploader).getSteamID64()) || '',
 				
 			}
 			searchTeamp(query)
