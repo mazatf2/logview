@@ -4,8 +4,8 @@
  "homepage": "https://mazatf2.github.io/logview",
  "license": "MIT",
  "scripts": {
-  "dev": "parcel serve public/*",
-  "build": "parcel build public/*",
+  "dev": "parcel serve public/index.html",
+  "build": "parcel build public/* --public-url /logview/",
   "predeploy": "yarn run build",
   "deploy": "gh-pages -d dist"
  },
