@@ -74,14 +74,14 @@ export const fetchLogList = async (query: Partial<searchLogListOpts>) => {
 }
 
 export const fetchLogData = async (id: number) => {
-	const url = `http://logs.tf/api/v1/log/${id}`
+	const url = `https://logs.tf/api/v1/log/${id}`
 	const req = new Request(url)
 	const data = await CacheableFetch(req)
 	return data.json() as logstfJson
 }
 
 export const fetchLogZip = async (id: string) => {
-	const url = `http://logs.tf/logs/log_${id}.log.zip`
+	const url = `https://logs.tf/logs/log_${id}.log.zip`
 	const req = new Request(url)
 	const response = await CacheableFetch(req)
 	const jsZip = new JSZip()
