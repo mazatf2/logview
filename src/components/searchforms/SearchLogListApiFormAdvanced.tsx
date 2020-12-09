@@ -1,6 +1,6 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
-import Steamid from 'steamid'
+import SteamID from 'steamid'
 import {Input} from './components/Input'
 import {Button} from './components/Button'
 import {Label} from './components/Label'
@@ -10,14 +10,14 @@ import {PlayerSelect} from './rows/PlayerSelect'
 import {Form} from './components/Form'
 import {FormType} from './components/FormType'
 
-export const parseSteamId = (val: string) => {
+export const parseSteamId = (val: string): SteamID | null => {
 	if (val === undefined) return null
 	if (val === '') return null
 	
 	try {
 		const str = val.trim()
 		
-		const id = new Steamid(str)
+		const id = new SteamID(str)
 		if (id.isValid())
 			return id
 		
@@ -27,7 +27,7 @@ export const parseSteamId = (val: string) => {
 	}
 }
 
-export const parseSteamIdList = (val: string) => {
+export const parseSteamIdList = (val: string): (SteamID | null)[] => {
 	if (val === undefined) return []
 	if (val === '') return []
 	
@@ -41,14 +41,14 @@ export const parseSteamIdList = (val: string) => {
 	}
 }
 
-export const isValidSteamId = (val: string) => {
+export const isValidSteamId = (val: string): boolean => {
 	if (val === undefined) return false
 	if (val === '') return false
 	
 	try {
 		const str = val.trim()
 		
-		const id = new Steamid(str)
+		const id = new SteamID(str)
 		return id.isValid()
 		
 	} catch (e) {
@@ -56,7 +56,7 @@ export const isValidSteamId = (val: string) => {
 	}
 }
 
-export const isValidSteamIdList = (val: string) => {
+export const isValidSteamIdList = (val: string): boolean => {
 	if (val === undefined) return false
 	if (val === '') return false
 	
@@ -77,7 +77,7 @@ export const isEmptyOrValidSteamIdField = (val: string) => {
 	try {
 		const str = val.trim()
 		
-		const id = new Steamid(str)
+		const id = new SteamID(str)
 		return id.isValid()
 		
 	} catch (e) {
