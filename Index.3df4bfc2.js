@@ -70908,7 +70908,9 @@ var numberCell = function numberCell(steam32, key) {
     Header: (0, _Abbr.Abbr)(key),
     id: key.toString(),
     accessor: function accessor(log) {
-      return log.players[steam32][key];
+      var _a;
+
+      return (_a = log.players[steam32]) === null || _a === void 0 ? void 0 : _a[key];
     },
     className: 'has-text-right'
   };
@@ -71175,88 +71177,47 @@ var App = function App() {
 
   var id = new _steamid.default(steam64);
   var steam32 = id.getSteam3RenderedID();
-  (0, _react.useEffect)(function () {
-    var testData = /*#__PURE__*/function () {
-      var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        var t, data;
-        return _regenerator.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return (0, _fetch.fetchLogList)({
-                  player: [steam64]
-                });
-
-              case 2:
-                t = _context.sent;
-                _context.next = 5;
-                return t.json();
-
-              case 5:
-                data = _context.sent;
-                mainData = data.logs.map(function (i) {
-                  return newLogListTableDataEntry(i);
-                });
-                setLogListTableData(mainData);
-                console.log(data);
-                return _context.abrupt("return", t);
-
-              case 10:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function testData() {
-        return _ref.apply(this, arguments);
-      };
-    }();
-
-    testData();
-  }, [steam64]);
 
   var searchTeamp = /*#__PURE__*/function () {
-    var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(obj) {
+    var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(obj) {
       var t, data;
-      return _regenerator.default.wrap(function _callee2$(_context2) {
+      return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
-              _context2.next = 2;
+              _context.next = 2;
               return (0, _fetch.fetchLogList)(obj);
 
             case 2:
-              t = _context2.sent;
-              _context2.next = 5;
+              t = _context.sent;
+              _context.next = 5;
               return t.json();
 
             case 5:
-              data = _context2.sent;
+              data = _context.sent;
               mainData = data.logs.map(function (i) {
                 return newLogListTableDataEntry(i);
               });
               setLogListTableData(mainData);
+              setSteam64(obj.player[0]);
               console.log(data);
 
-            case 9:
+            case 10:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2);
+      }, _callee);
     }));
 
     return function searchTeamp(_x) {
-      return _ref2.apply(this, arguments);
+      return _ref.apply(this, arguments);
     };
   }();
 
   var handleSubmit = function handleSubmit(i) {
     var noDuplicates = function noDuplicates(i) {
-      return Array.from(new Set((0, _toConsumableArray2.default)(i))).join(',');
+      return Array.from(new Set((0, _toConsumableArray2.default)(i)));
     };
 
     if (i.formType === 'simple' && i.player) {
@@ -71382,7 +71343,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55481" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53087" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
