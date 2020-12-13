@@ -38,23 +38,6 @@ const App = () => {
 	const id = new SteamID(steam64)
 	const steam32 = id.getSteam3RenderedID()
 	
-	useEffect(() => {
-		const testData = async () => {
-			const t = await fetchLogList({player: [steam64]})
-			const data: searchLogListApi = await t.json()
-			
-			mainData = data.logs.map(i => newLogListTableDataEntry(i))
-			setLogListTableData(mainData)
-			
-			console.log(data)
-			
-			return t
-		}
-		
-		testData()
-		
-	}, [steam64])
-	
 	const searchTeamp = async (obj: Partial<searchLogListOpts>) => {
 		const t = await fetchLogList(obj)
 		const data: searchLogListApi = await t.json()
