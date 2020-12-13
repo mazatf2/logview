@@ -44,6 +44,7 @@ const App = () => {
 		
 		mainData = data.logs.map(i => newLogListTableDataEntry(i))
 		setLogListTableData(mainData)
+		setSteam64(obj.player[0])
 		console.log(data)
 	}
 	
@@ -59,7 +60,7 @@ const App = () => {
 					.map(i => i.getSteamID64())
 				
 				const temp = noDuplicates(ids)
-				searchTeamp({player: temp})
+				searchTeamp({player: [temp]})
 				
 			}
 		}
