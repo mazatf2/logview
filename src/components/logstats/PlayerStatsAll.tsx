@@ -15,7 +15,7 @@ const numberCell = (steam32: string, key: string) => {
 	return {
 		Header: Abbr(key),
 		id: key.toString(),
-		accessor: log => log.players[steam32][key],
+		accessor: log => log.players[steam32]?.[key],
 		className: 'has-text-right',
 	}
 }
