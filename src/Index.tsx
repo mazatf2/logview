@@ -50,7 +50,7 @@ const App = () => {
 	
 	const handleSubmit = (i: searchObj) => {
 		
-		const noDuplicates = (i) => Array.from(new Set([...i])).join(',')
+		const noDuplicates = (i) => Array.from(new Set([...i]))
 		
 		if (i.formType === 'simple' && i.player) {
 			const isIdList = isValidSteamIdList(i.player)
@@ -60,7 +60,7 @@ const App = () => {
 					.map(i => i.getSteamID64())
 				
 				const temp = noDuplicates(ids)
-				searchTeamp({player: [temp]})
+				searchTeamp({player: temp})
 				
 			}
 		}
