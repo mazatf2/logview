@@ -8,7 +8,6 @@ dayjs.extend(utc)
 
 export const secondsToTimestamp = (seconds: number): string => {
 	if (!seconds) seconds = 0
-	if (typeof seconds !== 'number') seconds = 0
 	
 	const difference = dayjs().subtract(seconds, 'second')
 	const dur = dayjs.duration(dayjs().diff(difference))
