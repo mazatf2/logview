@@ -5,6 +5,7 @@ import {ClassList} from './cells/ClassList'
 import {useSortBy, useTable} from 'react-table'
 import {medianDecimals, sumNoDecimals} from './CombineLogs'
 import './CombineLogs.css'
+import {Name} from './Name'
 
 
 export const CombineLogsPlayersTable = ({logsArr}) => {
@@ -53,7 +54,7 @@ export const CombineLogsPlayersTable = ({logsArr}) => {
 				accessor: 'currentTeam',
 				id: 'currentName',
 				className: 'has-text-left',
-				Cell: i => i.row.original.currentName,
+				Cell: i => <Name player={i.row.original}/>,
 			},
 			{
 				Header: 'Classes',
