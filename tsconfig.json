@@ -6,7 +6,11 @@
 	"jsx": "react",
 	"moduleResolution": "Node",
 	"strict": true,
-	"allowSyntheticDefaultImports": true
+	"allowSyntheticDefaultImports": true,
+	"lib": [
+	  "dom",
+	  "es2019"
+	]
   },
   "include": [
 	"src"

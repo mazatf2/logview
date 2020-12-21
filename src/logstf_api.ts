@@ -245,6 +245,39 @@ export interface logstfJson {
 	'success': boolean
 }
 
+export const logstf_json_player_keys: string[] = [
+	'team',
+	'class_stats',
+	'kills',
+	'deaths',
+	'assists',
+	'suicides',
+	'kapd',
+	'kpd',
+	'dmg',
+	'dmg_real',
+	'dt',
+	'dt_real',
+	'hr',
+	'lks',
+	'as',
+	'dapd',
+	'dapm',
+	'ubers',
+	'ubertypes',
+	'drops',
+	'medkits',
+	'medkits_hp',
+	'backstabs',
+	'headshots',
+	'headshots_hit',
+	'sentries',
+	'heal',
+	'cpc',
+	'ic',
+	'medicstats',
+]
+
 // from root.players combined from .class_stats[]
 export const logstf_json_player_labels = {
 	// https://github.com/mazatf2/tf2-stats/blob/63ae9ab593c8decb29e6f2c417fe8c9272b7e8b3/src/logDB/Player/Player.js#L18
@@ -267,7 +300,7 @@ export const logstf_json_player_labels = {
 	'as': 'airshots',
 	'dapd': 'damage per death', // ?
 	'dapm': 'damage per minute',
-	// 'ubers': 'ubers{}',
+	'ubers': 'ubers',
 	// 'ubertypes': 'ubertypes',
 	'drops': 'drops',
 	'medkits': 'medkits',
@@ -302,7 +335,7 @@ export const logstf_json_player_abbr = {
 	'as': 'AS',
 	'dapd': 'DA/D',
 	'dapm': 'DA/M',
-	// 'ubers': 'ubers{}',
+	'ubers': 'ubers',
 	// 'ubertypes': 'ubertypes',
 	'drops': 'drops',
 	'medkits': 'medkits',
