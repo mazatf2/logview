@@ -62832,7 +62832,6 @@ _dayjs.default.extend(_utc.default);
 
 var secondsToTimestamp = function secondsToTimestamp(seconds) {
   if (!seconds) seconds = 0;
-  if (typeof seconds !== 'number') seconds = 0;
   var difference = (0, _dayjs.default)().subtract(seconds, 'second');
 
   var dur = _dayjs.default.duration((0, _dayjs.default)().diff(difference));
@@ -62863,8 +62862,10 @@ module.hot.accept(reloadCSS);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.localizedClass = exports.logstf_json_player_abbr = exports.logstf_json_player_labels = void 0;
-// from root.players combined from .class_stats[]
+exports.localizedClass = exports.logstf_json_player_abbr = exports.logstf_json_player_labels = exports.logstf_json_player_keys = void 0;
+var logstf_json_player_keys = ['team', 'class_stats', 'kills', 'deaths', 'assists', 'suicides', 'kapd', 'kpd', 'dmg', 'dmg_real', 'dt', 'dt_real', 'hr', 'lks', 'as', 'dapd', 'dapm', 'ubers', 'ubertypes', 'drops', 'medkits', 'medkits_hp', 'backstabs', 'headshots', 'headshots_hit', 'sentries', 'heal', 'cpc', 'ic', 'medicstats']; // from root.players combined from .class_stats[]
+
+exports.logstf_json_player_keys = logstf_json_player_keys;
 var logstf_json_player_labels = {
   // https://github.com/mazatf2/tf2-stats/blob/63ae9ab593c8decb29e6f2c417fe8c9272b7e8b3/src/logDB/Player/Player.js#L18
   // https://github.com/mazatf2/stuff/blob/253fa620ec7f80acc4f5778d7a29c4827554b39c/src/scatter/config.js#L15
@@ -62885,7 +62886,7 @@ var logstf_json_player_labels = {
   'as': 'airshots',
   'dapd': 'damage per death',
   'dapm': 'damage per minute',
-  // 'ubers': 'ubers{}',
+  'ubers': 'ubers',
   // 'ubertypes': 'ubertypes',
   'drops': 'drops',
   'medkits': 'medkits',
@@ -62918,7 +62919,7 @@ var logstf_json_player_abbr = {
   'as': 'AS',
   'dapd': 'DA/D',
   'dapm': 'DA/M',
-  // 'ubers': 'ubers{}',
+  'ubers': 'ubers',
   // 'ubertypes': 'ubertypes',
   'drops': 'drops',
   'medkits': 'medkits',
@@ -70298,7 +70299,35 @@ var ClassList = function ClassList(_ref) {
 };
 
 exports.ClassList = ClassList;
-},{"react":"../node_modules/react/index.js","../ClassIcons":"../src/components/combinelogs/ClassIcons.tsx","rc-tooltip":"../node_modules/rc-tooltip/es/index.js","../CombineLogs":"../src/components/combinelogs/CombineLogs.tsx","rc-tooltip/assets/bootstrap_white.css":"../node_modules/rc-tooltip/assets/bootstrap_white.css","../Abbr":"../src/components/combinelogs/Abbr.tsx","../../../utils":"../src/utils.tsx"}],"../src/components/combinelogs/CombineLogsPlayersTable.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../ClassIcons":"../src/components/combinelogs/ClassIcons.tsx","rc-tooltip":"../node_modules/rc-tooltip/es/index.js","../CombineLogs":"../src/components/combinelogs/CombineLogs.tsx","rc-tooltip/assets/bootstrap_white.css":"../node_modules/rc-tooltip/assets/bootstrap_white.css","../Abbr":"../src/components/combinelogs/Abbr.tsx","../../../utils":"../src/utils.tsx"}],"../src/components/combinelogs/Name.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Name = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Name = function Name(_ref) {
+  var player = _ref.player;
+
+  var getTeam = function getTeam(team) {
+    if (team === 'Blue') return 'blu';
+    if (team === 'Red') return 'red';
+    return '';
+  };
+
+  return _react.default.createElement("a", {
+    href: 'https://logs.tf/search/player?s=' + player.steamID,
+    className: getTeam(player.currentTeam)
+  }, player.currentName);
+};
+
+exports.Name = Name;
+},{"react":"../node_modules/react/index.js"}],"../src/components/combinelogs/CombineLogsPlayersTable.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70325,6 +70354,8 @@ var _reactTable = require("react-table");
 var _CombineLogs = require("./CombineLogs");
 
 require("./CombineLogs.css");
+
+var _Name = require("./Name");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -70426,7 +70457,9 @@ var CombineLogsPlayersTable = function CombineLogsPlayersTable(_ref) {
       id: 'currentName',
       className: 'has-text-left',
       Cell: function Cell(i) {
-        return i.row.original.currentName;
+        return _react.default.createElement(_Name.Name, {
+          player: i.row.original
+        });
       }
     }, {
       Header: 'Classes',
@@ -70501,7 +70534,7 @@ var CombineLogsPlayersTable = function CombineLogsPlayersTable(_ref) {
 };
 
 exports.CombineLogsPlayersTable = CombineLogsPlayersTable;
-},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","./Abbr":"../src/components/combinelogs/Abbr.tsx","@bit/mazatf.components.process-log":"../node_modules/@bit/mazatf.components.process-log/ProcessLog.js","./cells/ClassList":"../src/components/combinelogs/cells/ClassList.tsx","react-table":"../node_modules/react-table/index.js","./CombineLogs":"../src/components/combinelogs/CombineLogs.tsx","./CombineLogs.css":"../src/components/combinelogs/CombineLogs.css"}],"../src/components/combinelogs/RoundInfoRoundOverview.tsx":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","./Abbr":"../src/components/combinelogs/Abbr.tsx","@bit/mazatf.components.process-log":"../node_modules/@bit/mazatf.components.process-log/ProcessLog.js","./cells/ClassList":"../src/components/combinelogs/cells/ClassList.tsx","react-table":"../node_modules/react-table/index.js","./CombineLogs":"../src/components/combinelogs/CombineLogs.tsx","./CombineLogs.css":"../src/components/combinelogs/CombineLogs.css","./Name":"../src/components/combinelogs/Name.tsx"}],"../src/components/combinelogs/RoundInfoRoundOverview.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70700,7 +70733,137 @@ var RoundInfo = function RoundInfo(_ref) {
 };
 
 exports.RoundInfo = RoundInfo;
-},{"@babel/runtime/helpers/defineProperty":"../node_modules/@babel/runtime/helpers/defineProperty.js","react":"../node_modules/react/index.js","react-table":"../node_modules/react-table/index.js","../../utils":"../src/utils.tsx","./CombineLogs.css":"../src/components/combinelogs/CombineLogs.css","./RoundInfoRoundOverview":"../src/components/combinelogs/RoundInfoRoundOverview.tsx"}],"../src/components/combinelogs/CombineLogs.tsx":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"../node_modules/@babel/runtime/helpers/defineProperty.js","react":"../node_modules/react/index.js","react-table":"../node_modules/react-table/index.js","../../utils":"../src/utils.tsx","./CombineLogs.css":"../src/components/combinelogs/CombineLogs.css","./RoundInfoRoundOverview":"../src/components/combinelogs/RoundInfoRoundOverview.tsx"}],"../src/components/combinelogs/MedicStats.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MedicStats = void 0;
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _logstf_api = require("../../logstf_api");
+
+var _Abbr = require("./Abbr");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+var MedicStats = function MedicStats(_ref) {
+  var logsArr = _ref.logsArr,
+      ids = _ref.ids;
+  if (!logsArr) return _react.default.createElement(_react.default.Fragment, null, "Loading");
+  if (logsArr.length === 0) return _react.default.createElement(_react.default.Fragment, null);
+
+  var deepCopy = function deepCopy(i) {
+    return JSON.parse(JSON.stringify(i));
+  };
+
+  var logs = deepCopy(logsArr).reverse();
+  var medics = {};
+  var names = logs.map(function (i) {
+    return Object.entries(i.names);
+  }).flat().reduce(function (collector, i) {
+    return _objectSpread(_objectSpread({}, collector), {}, (0, _defineProperty2.default)({}, i[0], i[1]));
+  }, {});
+
+  var getName = function getName(steam32) {
+    return names[steam32] || steam32;
+  };
+
+  var merge = function merge(i) {
+    var _iterator = _createForOfIteratorHelper(i),
+        _step;
+
+    try {
+      var _loop = function _loop() {
+        var _step$value = (0, _slicedToArray2.default)(_step.value, 2),
+            id = _step$value[0],
+            medic = _step$value[1];
+
+        medics[id] = medics[id] || {};
+
+        _logstf_api.logstf_json_player_keys.forEach(function (key) {
+          medics[id][key] = medics[id][key] || [];
+          medics[id][key].push(medic[key]);
+        });
+      };
+
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        _loop();
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  };
+
+  logs.forEach(function (log) {
+    var medics = Object.entries(log.players).filter(function (_ref2) {
+      var _ref3 = (0, _slicedToArray2.default)(_ref2, 2),
+          id = _ref3[0],
+          player = _ref3[1];
+
+      return player.class_stats.find(function (i) {
+        return i.type === 'medic';
+      });
+    });
+    merge(medics);
+  });
+
+  var view = function view(i, key) {
+    var val = i[key].reduce(function (collector, i) {
+      return collector + parseFloat(i);
+    }, 0);
+    return _react.default.createElement("tr", null, _react.default.createElement("th", {
+      className: "th"
+    }, (0, _Abbr.Abbr)(key)), _react.default.createElement("td", {
+      className: "td"
+    }, val));
+  };
+
+  return _react.default.createElement("div", {
+    className: "columns"
+  }, Object.entries(medics).map(function (_ref4) {
+    var _ref5 = (0, _slicedToArray2.default)(_ref4, 2),
+        id = _ref5[0],
+        i = _ref5[1];
+
+    return _react.default.createElement("div", {
+      className: "column",
+      key: id
+    }, _react.default.createElement("table", {
+      className: 'table is-hoverable'
+    }, _react.default.createElement("thead", {
+      className: "thead"
+    }, _react.default.createElement("tr", {
+      className: "tr"
+    }, _react.default.createElement("th", {
+      className: "th",
+      colSpan: 2
+    }, getName(id)))), _react.default.createElement("tbody", {
+      className: "tbody"
+    }, view(i, 'heal'), view(i, 'ubers'), view(i, 'drops'))));
+  }));
+};
+
+exports.MedicStats = MedicStats;
+},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/defineProperty":"../node_modules/@babel/runtime/helpers/defineProperty.js","react":"../node_modules/react/index.js","../../logstf_api":"../src/logstf_api.ts","./Abbr":"../src/components/combinelogs/Abbr.tsx"}],"../src/components/combinelogs/CombineLogs.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70719,6 +70882,8 @@ var _fetch = require("../../fetch");
 var _RoundInfo = require("./RoundInfo");
 
 var _CombineLogsPlayersTable = require("./CombineLogsPlayersTable");
+
+var _MedicStats = require("./MedicStats");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -70763,11 +70928,14 @@ var CombineLogs = function CombineLogs(_ref) {
   }), _react.default.createElement(_RoundInfo.RoundInfo, {
     logsArr: logsArr,
     ids: ids
+  }), _react.default.createElement(_MedicStats.MedicStats, {
+    logsArr: logsArr,
+    ids: ids
   }));
 };
 
 exports.CombineLogs = CombineLogs;
-},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","@bit/mazatf.components.utils":"../node_modules/@bit/mazatf.components.utils/utils.js","../../fetch":"../src/fetch.ts","./RoundInfo":"../src/components/combinelogs/RoundInfo.tsx","./CombineLogsPlayersTable":"../src/components/combinelogs/CombineLogsPlayersTable.tsx"}],"../src/loging.tsx":[function(require,module,exports) {
+},{"@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","@bit/mazatf.components.utils":"../node_modules/@bit/mazatf.components.utils/utils.js","../../fetch":"../src/fetch.ts","./RoundInfo":"../src/components/combinelogs/RoundInfo.tsx","./CombineLogsPlayersTable":"../src/components/combinelogs/CombineLogsPlayersTable.tsx","./MedicStats":"../src/components/combinelogs/MedicStats.tsx"}],"../src/loging.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71343,7 +71511,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53087" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54550" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
