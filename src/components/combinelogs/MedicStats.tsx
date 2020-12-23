@@ -1,6 +1,7 @@
 import React from 'react'
-import {logstf_json_player_keys, logstfJson} from '../../logstf_api'
-import {Abbr} from './Abbr'
+import {logstf_json_player_keys, logstf_json_player_medicstats_obj, logstfJson} from '../../logstf_api'
+import {Abbr, AbbrMedicStats} from './Abbr'
+import './CombineLogs.css'
 
 type props = {
 	logsArr: logstfJson[]
@@ -23,6 +24,16 @@ export const MedicStats = ({logsArr, ids}: props) => {
 			return {...collector, [i[0]]: i[1]}
 		}, {})
 	
+	const indexByKey: Record<string, string> = obj => obj
+		.map(i => Object.entries(i))
+		.flat()
+		.reduce((collector, i) => {
+			if (collector[i[0]])
+				return {...collector, [i[0]]: collector[i[0]].concat(i[1])}
+			return {...collector, [i[0]]: [i[1]]}
+		}, {})
+	
+	
 	const getName = (steam32: string) => names[steam32] || steam32
 	
 	const merge = (i) => {
@@ -43,15 +54,88 @@ export const MedicStats = ({logsArr, ids}: props) => {
 		merge(medics)
 	})
 	
-	const view = (i, key) => {
-		const val = i[key].reduce((collector: number, i: string) =>
-			collector + parseFloat(i)
-			, 0)
+	const sum = (arr: []) => arr.reduce((collector: number, i: string) => collector + parseFloat(i), 0)
+	const avg = (arr: []) => sum(arr) / arr.length
+	
+	const view = ({
+					  obj,
+					  key,
+					  valueConcatFn = sum,
+					  decimals = 0,
+					  abbrType = 'normal',
+					  showRawKey: showRawAbbrKey = false,
+				  }) => {
+		const val = valueConcatFn(obj[key])
+		const valRound = Number(val).toFixed(decimals)
+		
+		let abbr
+		if (showRawAbbrKey) {
+			let temp = [...key]
+			temp[0] = temp[0] && temp[0].toUpperCase() || ''
+			abbr = temp.join('') || ''
+		} else {
+			if (abbrType === 'normal')
+				abbr = Abbr(key)
+			if (abbrType === 'medicstats')
+				abbr = AbbrMedicStats(key)
+		}
 		
 		return <tr>
-			<th className="th">{Abbr(key)}</th>
-			<td className="td">{val}</td>
+			<th className="th noBold">{abbr}</th>
+			<td className="td has-text-right">{valRound}</td>
 		</tr>
+	}
+	const mapUberTypes = (i) => {
+		const uberTypes = indexByKey(i.ubertypes)
+		const mediguns = Object.keys(uberTypes)
+		return mediguns.map(medigun => view({obj: uberTypes, key: medigun, showRawKey: true}))
+	}
+	
+	const mapMedicStats = (i) => {
+		const medicStats = indexByKey(i.medicstats)
+		return [
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.avg_time_to_build,
+				valueConcatFn: avg,
+				decimals: 1,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.avg_time_before_using,
+				valueConcatFn: avg,
+				decimals: 1,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.avg_uber_length,
+				valueConcatFn: avg,
+				decimals: 1,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.deaths_with_95_99_uber,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.deaths_within_20s_after_uber,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.advantages_lost,
+				abbrType: 'medicstats',
+			}),
+			view({
+				obj: medicStats,
+				key: logstf_json_player_medicstats_obj.biggest_advantage_lost,
+				abbrType: 'medicstats',
+			}),
+		]
 	}
 	
 	return <div className="columns">
@@ -65,9 +149,13 @@ export const MedicStats = ({logsArr, ids}: props) => {
 						</tr>
 						</thead>
 						<tbody className="tbody">
-						{view(i, 'heal')}
-						{view(i, 'ubers')}
-						{view(i, 'drops')}
+						{view({obj: i, key: 'heal'})}
+						{view({obj: i, key: 'drops'})}
+						{mapMedicStats(i)}
+						<tr>
+							<th className="th" colSpan={2}>Charges</th>
+						</tr>
+						{mapUberTypes(i)}
 						</tbody>
 					</table>
 				</div>,
