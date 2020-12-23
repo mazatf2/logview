@@ -5,6 +5,7 @@
  "license": "MIT",
  "scripts": {
   "dev": "parcel serve public/index.html",
+  "prebuild": "node ./clean.mjs",
   "build": "parcel build public/* --public-url /logview/",
   "predeploy": "yarn run build",
   "deploy": "gh-pages -d dist"
