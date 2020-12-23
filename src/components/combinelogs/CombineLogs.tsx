@@ -15,7 +15,7 @@ export const sumNoDecimals = (arr: number[]) => {
 	return Number(sum(arr)).toFixed(0)
 }
 
-export const medianDecimals = (arr: number[], decimals: number) => {
+export const avgDecimals = (arr: number[], decimals: number) => {
 	if (!arr) return 0
 	return Number(average(arr)).toFixed(decimals)
 }

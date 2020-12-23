@@ -3,7 +3,7 @@ import {Abbr} from './Abbr'
 import ProcessLog from '@bit/mazatf.components.process-log'
 import {ClassList} from './cells/ClassList'
 import {useSortBy, useTable} from 'react-table'
-import {medianDecimals, sumNoDecimals} from './CombineLogs'
+import {avgDecimals, sumNoDecimals} from './CombineLogs'
 import './CombineLogs.css'
 import {Name} from './Name'
 
@@ -42,7 +42,7 @@ export const CombineLogsPlayersTable = ({logsArr}) => {
 		return {
 			Header: Abbr(key),
 			id: key,
-			accessor: player => medianDecimals(player[key], decimals),
+			accessor: player => avgDecimals(player[key], decimals),
 			className: 'has-text-right',
 		}
 	}
