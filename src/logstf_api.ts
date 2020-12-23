@@ -278,6 +278,21 @@ export const logstf_json_player_keys: string[] = [
 	'medicstats',
 ]
 
+export const logstf_json_player_medicstats_labels = {
+	'advantages_lost': 'Advantages lost',
+	'avg_time_before_healing': 'Avg time before healing',
+	'avg_time_before_using': 'Avg time before using',
+	'avg_time_to_build': 'Avg time to build',
+	'avg_uber_length': 'Avg uber length',
+	'biggest_advantage_lost': 'Biggest advantage lost',
+	'deaths_with_95_99_uber': '95-99% charge deaths',
+	'deaths_within_20s_after_uber': 'Deaths after charge',
+}
+
+export const logstf_json_player_medicstats_keys: string[] = Object.keys(logstf_json_player_medicstats_labels)
+
+export const logstf_json_player_medicstats_obj = Object.fromEntries(logstf_json_player_medicstats_keys.map(i => [i, i]))
+
 // from root.players combined from .class_stats[]
 export const logstf_json_player_labels = {
 	// https://github.com/mazatf2/tf2-stats/blob/63ae9ab593c8decb29e6f2c417fe8c9272b7e8b3/src/logDB/Player/Player.js#L18
