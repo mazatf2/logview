@@ -40,7 +40,7 @@ export const MedicStats = ({logsArr, ids}: props) => {
 		for (const [id, medic] of i) {
 			medics[id] = medics[id] || {}
 			
-			logstf_json_player_keys.forEach(key => {
+			Object.keys(medic).forEach(key => {
 				medics[id][key] = medics[id][key] || []
 				medics[id][key].push(medic[key])
 			})
@@ -49,7 +49,15 @@ export const MedicStats = ({logsArr, ids}: props) => {
 	
 	logs.forEach(log => {
 		const medics = Object.entries(log.players)
-			.filter(([id, player]) => player.class_stats.find(i => i.type === 'medic'))
+			.filter(([id, player]) => {
+				const isMedic = player.class_stats.find(i => i.type === 'medic')
+				if (isMedic)
+					return [id, player.class_stats.find(i => i.type === 'medic')]
+			})
+			.map(([id, player]) => {
+				player.healspread = log.healspread[id] || {}
+				return [id, player]
+			})
 		
 		merge(medics)
 	})
@@ -146,6 +154,40 @@ export const MedicStats = ({logsArr, ids}: props) => {
 		]
 	}
 	
+	const mapHealSpread = (i, medicId) => {
+		const healSpread = indexByKey(i.healspread)
+		
+		class Spread {
+			public name: string
+			public amount: number
+			public percentage: string
+			
+			constructor(targetId: string, amount: number[], medic) {
+				this.name = getName(targetId)
+				this.amount = sum(amount)
+				this.percentage = Math.round((this.amount / sum(medic.heal)) * 100) + ''
+			}
+			
+			val() {
+				return this.amount
+			}
+			
+			render() {
+				return <tr>
+					<th className="th noBold">{this.name}</th>
+					<td className="td has-text-right">{this.amount}</td>
+					<td className="td has-text-right">{this.percentage}%</td>
+				</tr>
+			}
+		}
+		
+		const temp = Object.entries(healSpread).map(([targetId, amount]) => new Spread(targetId, amount, i))
+			.sort((a, b) => a.val() - b.val())
+			.reverse()
+		
+		return temp.map(i => i.render())
+	}
+	
 	return <div className="columns">
 		{
 			Object.entries(medics).map(([id, i]) =>
@@ -160,6 +202,12 @@ export const MedicStats = ({logsArr, ids}: props) => {
 						{view({obj: i, key: 'heal'})}
 						{view({obj: i, key: 'drops'})}
 						{mapMedicStats(i)}
+						<tr>
+							<th className="th">Heal spread</th>
+							<th className="th has-text-right">Total</th>
+							<th className="th has-text-right">%</th>
+						</tr>
+						{mapHealSpread(i, id)}
 						<tr>
 							<th className="th" colSpan={2}>Charges</th>
 						</tr>
