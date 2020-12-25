@@ -55,7 +55,13 @@ export const MedicStats = ({logsArr, ids}: props) => {
 	})
 	
 	const sum = (arr: []) => arr.reduce((collector: number, i: string) => collector + parseFloat(i), 0)
-	const avg = (arr: []) => sum(arr) / arr.length
+	
+	const avg = (arr: []) => {
+		if (arr.length > 0)
+			return sum(arr) / arr.length
+		
+		return arr[0] || 0
+	}
 	
 	const view = ({
 					  obj,
@@ -65,8 +71,10 @@ export const MedicStats = ({logsArr, ids}: props) => {
 					  abbrType = 'normal',
 					  showRawKey: showRawAbbrKey = false,
 				  }) => {
-		const val = valueConcatFn(obj[key])
-		const valRound = Number(val).toFixed(decimals)
+		
+		const val = obj[key] || []
+		const concatVal = valueConcatFn(val)
+		const valRound = Number(concatVal).toFixed(decimals)
 		
 		let abbr
 		if (showRawAbbrKey) {
