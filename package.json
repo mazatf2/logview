@@ -1,14 +1,12 @@
 {
  "name": "logs-search",
  "version": "0.0.1",
- "homepage": "https://mazatf2.github.io/logview",
+ "homepage": "https://tf2logview.netlify.app",
  "license": "MIT",
  "scripts": {
   "dev": "parcel serve public/index.html",
   "prebuild": "node ./clean.mjs",
-  "build": "parcel build public/* --public-url /logview/",
-  "predeploy": "yarn run build",
-  "deploy": "gh-pages -d dist"
+  "build": "parcel build public/*"
  },
  "dependencies": {
   "@bit/mazatf.components.log-api": "^0.0.1",
@@ -38,7 +36,6 @@
   "@types/react-router-dom": "^5.1.6",
   "@types/react-table": "^7.0.25",
   "@types/steamid": "^1.1.0",
-  "gh-pages": "^3.1.0",
   "parcel-bundler": "^1.12.4",
   "typescript": "^4.0.3"
  },

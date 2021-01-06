@@ -115,7 +115,7 @@ const App = () => {
 		return 'none'
 	}
 	
-	return <Router basename="/logview">
+	return <Router basename="/">
 		<NavBar/>
 		<Switch>
 			<Route path="/log-stats/:steam64/:ids">
